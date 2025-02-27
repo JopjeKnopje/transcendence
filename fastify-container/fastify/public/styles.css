@@ -1,0 +1,17 @@
+header {
+	color: white;
+	background: rgb(175, 100, 100);
+	padding: 1em;
+}
+
+body {
+	color: black;
+}
+
+.div-login {
+	display: flex;
+	justify-content: center;
+	flex-flow: column wrap;
+	align-items: center;
+}
+

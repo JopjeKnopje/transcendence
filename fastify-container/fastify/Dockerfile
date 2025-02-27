@@ -4,9 +4,7 @@ WORKDIR /app
 
 COPY package.json package-lock.json .
 
-RUN npm install && npm install -g nodemon
-
-COPY . .
+RUN npm install && npm install -g nodemon && npm install better-sqlite3
 
 EXPOSE 3000
 
