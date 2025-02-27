@@ -1,5 +1,6 @@
 import Fastify from 'fastify';
-import routes from "./routes/routes.js"
+import routes from "./routes/routes.js";
+import formbody from "@fastify/formbody";
 
 // view & EJS stuff
 import path from "node:path";
@@ -19,16 +20,15 @@ const fastify = Fastify({
 
 const { ADDRESS = 'localhost', PORT = '3000' } = process.env;
 
-// Registering routes from routes.js
-fastify.register(routes);
-
+// Registering order is important! E.g. registering to formbody before routes!
+fastify.register(dbConnector);
+fastify.register(formbody);
 fastify.register(fastifyView, {
 	engine: {
 		ejs,
 	},
 	root: path.join(__dirname, "views"),
 	viewExt: "ejs",
-	layout: "layout.ejs",
 });
 
 fastify.register(fastifyStatic, {
@@ -36,7 +36,7 @@ fastify.register(fastifyStatic, {
 	prefix: "/public/",
 });
 
-fastify.register(dbConnector);
+fastify.register(routes);
 
 fastify.listen({ host: ADDRESS, port: parseInt(PORT, 10) }, (err, address) => {
 	if (err)

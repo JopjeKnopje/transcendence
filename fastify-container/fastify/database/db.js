@@ -7,13 +7,15 @@ const databasePath = path.join(import.meta.dirname, "/data.db");
 
 async function dbConnector(fastify, options)
 {
-	if (fs.existsSync(databasePath))
+	if (!fs.existsSync(databasePath))
 	{
-		console.log("dbConnector: trying to create the database but it already exists");
-		return;
+		console.log("Creating new database at:", databasePath);
+	} 
+	else
+	{
+		console.log("Database already exists, connecting...");
 	}
-	const dbFile = "./database/data.db";
-	const db = new Database(dbFile, { verbose: console.log });
+	const db = new Database(databasePath, { verbose: console.log });
 
 	db.exec(`
 		CREATE TABLE IF NOT EXISTS users (
@@ -23,9 +25,11 @@ async function dbConnector(fastify, options)
 		);
 		`);
 
+    console.log("Database initialized successfully!");
 	fastify.decorate("db", db);
-
+    console.log("Fastify DB instance decorated!");
 	fastify.addHook("onClose", (fastify, done) => {
+        console.log("Closing database connection...");
 		db.close();
 		done();
 	});
