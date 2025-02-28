@@ -10,7 +10,7 @@ const __dirname = import.meta.dirname;
 // Static stuff
 import fastifyStatic from "@fastify/static";
 
-import fastifyWS from "@fastify/websocket";
+import fastifyWebsocket from "@fastify/websocket";
 
 const fastify = Fastify({
 	logger: true
@@ -18,7 +18,7 @@ const fastify = Fastify({
 
 const { ADDRESS = 'localhost', PORT = '3000' } = process.env;
 
-fastify.register(fastifyWS);
+fastify.register(fastifyWebsocket);
 
 fastify.register(fastifyView, {
 	engine: {
@@ -44,3 +44,4 @@ fastify.listen({ host: ADDRESS, port: parseInt(PORT, 10) }, (err, address) => {
 	}
   console.log(`Server listening at ${address}`)
 });
+
