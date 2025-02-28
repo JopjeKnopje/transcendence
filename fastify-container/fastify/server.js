@@ -11,7 +11,7 @@ const __dirname = import.meta.dirname;
 import fastifyStatic from "@fastify/static";
 
 // Database
-import dbConnector from "./database/db.js";
+//import dbConnector from "./database/db.js";
 
 const fastify = Fastify({
 	logger: true
@@ -28,7 +28,6 @@ fastify.register(fastifyView, {
 	},
 	root: path.join(__dirname, "views"),
 	viewExt: "ejs",
-	layout: "layout.ejs",
 });
 
 fastify.register(fastifyStatic, {
@@ -36,7 +35,7 @@ fastify.register(fastifyStatic, {
 	prefix: "/public/",
 });
 
-fastify.register(dbConnector);
+//fastify.register(dbConnector);
 
 fastify.listen({ host: ADDRESS, port: parseInt(PORT, 10) }, (err, address) => {
 	if (err)

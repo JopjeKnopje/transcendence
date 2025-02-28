@@ -3,6 +3,7 @@ services:
     build: ./fastify
     ports:
       - "8000:3000"
+      - "8001:3001"
     volumes:
       - ./fastify:/app  # Mount local project folder into the container
       - /app/node_modules  # Prevent overwriting node_modules

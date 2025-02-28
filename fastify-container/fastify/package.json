@@ -5,8 +5,9 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon -L server.js"
+    "start": "vite && node server.js",
+	"build": "vite build",
+    "dev": "concurrently \"nodemon -L server.js\" \"vite\""
   },
   "keywords": [],
   "author": "",
@@ -16,9 +17,11 @@
     "@fastify/view": "^10.0.2",
     "better-sqlite3": "^11.8.1",
     "ejs": "^3.1.10",
-    "fastify": "^5.2.1"
+    "fastify": "^5.2.1",
+    "pixi.js": "^8.8.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.9"
+    "nodemon": "^3.1.9",
+    "vite": "^6.2.0"
   }
 }
