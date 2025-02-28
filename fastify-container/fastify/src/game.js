@@ -1,71 +1,48 @@
 import {Application, Assets, Sprite} from "pixi.js";
 
-function move(key)
-{
-	if (key.keyCode == 87 || key.keyCode == 38)
-	{
+const KEY = {
+	W: 87,
+	S: 83,
+	A: 65,
+	D: 68
+};
 
-
-	}
-
-}
 
 (async () =>
 {
-    // Create a new application
+	let keys = {};
+	window.addEventListener('keydown', (event) => {
+		console.log(`Key down: ${event.code}`);
+		keys[event.code] = true;
+	});
+	window.addEventListener('keyup', (event) => {
+		console.log(`Key up: ${event.code}`);
+		keys[event.code] = false;
+	})
+
+	// INIT
     const app = new Application();
+    await app.init({ background: '#01010101', width: 800, height: 600 });
+	document.body.appendChild(app.canvas);
 
-    // Initialize the application
-    await app.init({ background: '#1099bb', resizeTo: window });
 
-    // Append the application canvas to the document body
-    document.body.appendChild(app.canvas);
-
-    // Load the bunny texture
+	// RESOURCES
     const texture = await Assets.load('public/skelly.png');
+    const skelly = new Sprite(texture);
+    skelly.anchor.set(0.5);
+    skelly.x = Math.floor(Math.random() * app.screen.width);
+    skelly.y = Math.floor(Math.random() * app.screen.height);
 
-    // Create a bunny Sprite
-    const bunny = new Sprite(texture);
-
-    // Center the sprite's anchor point
-    bunny.anchor.set(0.5);
-
-    // Move the sprite to the center of the screen
-    bunny.x = app.screen.width / 2;
-    bunny.y = app.screen.height / 2;
-
-    app.stage.addChild(bunny);
-
-    // Listen for animate update
+	// LOOP
     app.ticker.add((time) =>
     {
-        // Just for fun, let's rotate mr rabbit a little.
-        // * Delta is 1 if running at 100% performance *
-        // * Creates frame-independent transformation *
-        bunny.rotation += 0.1 * time.deltaTime;
+		const moveSpeed = 2;
+		if (keys['KeyW']) skelly.y -= moveSpeed * time.deltaTime;
+		if (keys['KeyS']) skelly.y += moveSpeed * time.deltaTime;
+		if (keys['KeyA']) skelly.x -= moveSpeed * time.deltaTime;
+		if (keys['KeyD']) skelly.x += moveSpeed * time.deltaTime;
     });
 
-	document.addEventListener('keydown', onKeyDown);
-
+	app.stage.addChild(skelly);
 })();
 
-//import * as PIXI from "pixi.js";
-//
-//// Create a PixiJS Application
-//const app = new PIXI.Application({
-//  width: 800,
-//  height: 600,
-//  backgroundColor: 0x1099bb, // Light blue
-//});
-//
-//// Append the view (canvas) to the body
-//document.body.appendChild(app.view);
-//
-//// Create a simple PixiJS sprite (Example)
-//const sprite = PIXI.Sprite.from("https://pixijs.com/assets/bunny.png");
-//sprite.anchor.set(0.5);
-//sprite.x = app.screen.width / 2;
-//sprite.y = app.screen.height / 2;
-//
-//// Add sprite to the stage
-//app.stage.addChild(sprite);

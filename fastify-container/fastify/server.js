@@ -10,8 +10,7 @@ const __dirname = import.meta.dirname;
 // Static stuff
 import fastifyStatic from "@fastify/static";
 
-// Database
-//import dbConnector from "./database/db.js";
+import fastifyWS from "@fastify/websocket";
 
 const fastify = Fastify({
 	logger: true
@@ -19,8 +18,7 @@ const fastify = Fastify({
 
 const { ADDRESS = 'localhost', PORT = '3000' } = process.env;
 
-// Registering routes from routes.js
-fastify.register(routes);
+fastify.register(fastifyWS);
 
 fastify.register(fastifyView, {
 	engine: {
@@ -35,7 +33,8 @@ fastify.register(fastifyStatic, {
 	prefix: "/public/",
 });
 
-//fastify.register(dbConnector);
+// Registering routes from routes.js
+fastify.register(routes);
 
 fastify.listen({ host: ADDRESS, port: parseInt(PORT, 10) }, (err, address) => {
 	if (err)

@@ -1,7 +1,16 @@
-import {getRoot} from "../controllers/controllers.js";
+import {getRoot, getHello} from "../controllers/controllers.js";
 
-async function routes (fastify, options) {
+export default async function routes (fastify, options) {
 	fastify.get('/', getRoot);
+	fastify.get('/hello', getHello);
+	fastify.get('/hello-ws', {websocket: true}, (socket, req) => {
+		socket.on('message', message => {
+			socket.send('Hello Fastify Websockets');
+		});
+	});
+	fastify.get('/*', {websocket: true}, (socket, req) => {
+		socket.on('message', message => {
+			socket.send('Hello Fastify Websockets');
+		});
+	});
 };
-
-export default routes;
