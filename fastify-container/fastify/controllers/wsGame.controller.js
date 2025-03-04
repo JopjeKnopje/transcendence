@@ -29,8 +29,19 @@ export async function handleWebsocketEvents(client, req)
 {
 	// Generate playerId and generate random spawn position
 	const playerId = generateRandomPlayer();
-	console.log("New connection!, playerId: ", playerId);
-	client.send(JSON.stringify("Jo from server!"));
+	console.log("New connection: ", playerId);
+
+	const initMessage = {
+		type: "init",
+		id: playerId,
+		position: {
+			x: player.position.x,
+			y: player.position.y
+		}
+	};
+
+	//client.send(initMssg);
+	client.send("OK");
 	// Send the "init" message to client
 	// Send the newly created playerId an Position to client and assign ot localplayer
 	// Send all the other players to client, client spawns all players but itself
