@@ -4,6 +4,9 @@ import {getRoot, getHello} from "../controllers/controllers.js";
 export default async function routes (fastify, options) {
 	fastify.get('/', getRoot);
 	fastify.get('/hello', getHello);
-	fastify.get('/ws', handleWebsocketEvents);
+	fastify.get('/ws', {websocket: true}, handleWebsocketEvents);
+	//fastify.get('/ws', { websocket: true }, (connection, request) => {
+	//	console.log("OK");
+	//});
 };
 

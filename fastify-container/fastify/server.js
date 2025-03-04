@@ -13,7 +13,7 @@ import fastifyStatic from "@fastify/static";
 import fastifyWebsocket from "@fastify/websocket";
 
 const fastify = Fastify({
-	logger: true
+	//logger: true
 });
 
 const { ADDRESS = 'localhost', PORT = '3000' } = process.env;

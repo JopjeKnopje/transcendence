@@ -6,6 +6,7 @@ socket.onopen = () => {
 
 socket.onmessage = (event) => {
 	const data = JSON.parse(event.data);
+	console.log("Message from server: ", data);
 	if (data.type == "init")
 	{
 		Object.entries(data.players).forEach(([id, position]) => addPlayer(id, position));

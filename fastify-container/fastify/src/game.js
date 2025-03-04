@@ -13,7 +13,7 @@ const BG_COLOR = '#01010101';
 
 function addPlayer(id, position)
 {
-	console.log(`New player ${id} connected at ${position}`);
+	console.log(`New player ${id} connected at (${position.x}, ${position.y})`);
 	const player = new Graphics();
 	player.beginFill(0xff0000);
 	player.circle(0, 0, 10);
