@@ -36,12 +36,24 @@ export async function handleWebsocketEvents(client, req)
 
 	// Initialize player and players for newly connected client
 	client.send(JSON.stringify({type: "init", player, gameState}));
+
 	client.on('message', message => {
 		const data = JSON.parse(message);
 		console.log("Server received: ", data); 
+
+		//if (data.type == "move")
+		//{
+		//	gameState.players[data.id].position = data.position;
+		//	broadcast(data);
+		//}
 	});
-	// Send the newly created playerId an Position to client and assign ot localplayer
-	// Send all the other players to client, client spawns all players but itself
+
+	client.on('close', message => {
+		const data = JSON.parse(message);
+		console.log("Client closed: ", data); 
+		clients.delete(client);
+		delete gameState.players[player.id];
+	});
 
 };
 

@@ -5,23 +5,24 @@ import * as input from "/src/input.js";
 import {sendToServer, gameState} from "/src/gamestate.js";
 let localPlayerIsInitialized = false;
 
-(async () =>
-{
+//(async () =>
+//{
 	// INIT
-    const app = new Application();
-    await app.init({ background: appdata.BG_COLOR, width: appdata.WIDTH, height: appdata.HEIGHT });
+    const pixiApp = new Application();
+    await pixiApp.init({ background: appdata.BG_COLOR, width: appdata.WIDTH, height: appdata.HEIGHT });
 	const moveSpeed = 2;
-	document.body.appendChild(app.canvas);
+	document.body.appendChild(pixiApp.canvas);
 	let localPlayer = null;
+	let pixiStage = pixiApp.stage;
 
 	// LOOP
-    app.ticker.add((time) =>
+    pixiApp.ticker.add((time) =>
     {
 		//console.log("isGameStateInitialized: ", gameState.isInitialized);
 		if (gameState.isInitialized() && !localPlayerIsInitialized)
 		{
 			localPlayer = gameState.getLocalPlayer();
-			app.stage.addChild(localPlayer);
+			//pixiApp.stage.addChild(localPlayer);
 			localPlayerIsInitialized = true;
 		}
 		else
@@ -33,5 +34,6 @@ let localPlayerIsInitialized = false;
 		}
 		//network.sendToServer({type: "move", position: {x: skelly.x, y: skelly.y}});
     });
-})();
+//})();
 
+export {pixiStage};
