@@ -1,19 +1,15 @@
 import Fastify from 'fastify';
 import routes from "./routes/routes.js"
-
-// view & EJS stuff
 import path from "node:path";
 import fastifyView from "@fastify/view";
 import ejs from "ejs";
 const __dirname = import.meta.dirname;
-
-// Static stuff
 import fastifyStatic from "@fastify/static";
-
 import fastifyWebsocket from "@fastify/websocket";
 
 const fastify = Fastify({
-	//logger: true
+	prettyPrint: true,
+	logger: true
 });
 
 const { ADDRESS = 'localhost', PORT = '3000' } = process.env;

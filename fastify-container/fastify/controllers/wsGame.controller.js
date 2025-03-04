@@ -1,4 +1,4 @@
-let clients = new Map();
+let clients = new Set();
 
 let gameState = {
 	players: {},
@@ -28,21 +28,18 @@ function broadcast(message)
 export async function handleWebsocketEvents(client, req)
 {
 	// Generate playerId and generate random spawn position
-	const playerId = generateRandomPlayer();
-	console.log("New connection: ", playerId);
+	const player = generateRandomPlayer();
+	console.log("New connection: ", player);
+	// Add new player to gamestate object and clients Set
+	gameState.players[player.id] = player.position;
+	clients.add(client);
 
-	const initMessage = {
-		type: "init",
-		id: playerId,
-		position: {
-			x: player.position.x,
-			y: player.position.y
-		}
-	};
-
-	//client.send(initMssg);
-	client.send("OK");
-	// Send the "init" message to client
+	// Initialize player and players for newly connected client
+	client.send(JSON.stringify({type: "init", player, gameState}));
+	client.on('message', message => {
+		const data = JSON.parse(message);
+		console.log("Server received: ", data); 
+	});
 	// Send the newly created playerId an Position to client and assign ot localplayer
 	// Send all the other players to client, client spawns all players but itself
 
